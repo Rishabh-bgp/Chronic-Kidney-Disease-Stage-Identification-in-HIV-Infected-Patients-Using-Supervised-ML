@@ -1,0 +1,2 @@
+# Chronic-Kidney-Disease-Stage-Identification-in-HIV-Infected-Patients-Using-Supervised-ML
+ML is transforming Chronic Kidney Disease (CKD) detection in HIV patients, catching early asymptomatic stages to stop rapid decline. Reviewing tools like SVM, RF, and XGBoost based on eGFR, the study shows Deep Neural Networks (DNN) lead with up to 99% accuracy. It recommends combining medical imaging with deep learning for future care.

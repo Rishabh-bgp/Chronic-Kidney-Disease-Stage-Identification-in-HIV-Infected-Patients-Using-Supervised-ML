@@ -31,13 +31,75 @@ Because early and intermediate stages are largely asymptomatic, laboratory-drive
 
 ---
 
-## 2. Dataset
+## 2. Datasets
 
-### 2.1 Primary literature cohort
+Two related tabular sources underpin this review and the companion notebook.
 
-The most comprehensive experimental study reviewed (Darveshwala et al., 2021) uses a UCI-derived HIV-CKD collection of **158 instances** and **27 attributes** (numerical laboratory values plus encoded demographic and comorbidity indicators). After binary classification, 44 patients were labelled CKD-positive; eGFR staging of those 44 cases showed heavy concentration in Stages 4–5 (10 and 25 patients, respectively).
+### 2.1 UCI Chronic Kidney Disease (canonical public benchmark)
 
-### 2.2 Attributes (HIV-CKD schema)
+**Source:** Rubini, L., Soundarapandian, P., & Eswaran, P. (2015). *Chronic Kidney Disease* [Dataset]. UCI Machine Learning Repository.  
+**URL:** [https://archive.ics.uci.edu/dataset/336/chronic+kidney+disease](https://archive.ics.uci.edu/dataset/336/chronic+kidney+disease)  
+**DOI:** [10.24432/C5G020](https://doi.org/10.24432/C5G020)  
+**Licence:** Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+| Property | Value |
+|----------|--------|
+| Donated | 3 July 2015 |
+| Task | Binary classification (`ckd` / `notckd`) |
+| Instances | 400 (hospital collection over approximately two months) |
+| Features | 24 predictors + 1 class label (11 numeric, 14 nominal) |
+| Missing values | Yes |
+| Subject area | Health / other |
+
+Attribute dictionary (UCI official encoding):
+
+| Code | Feature | Scale / values |
+|------|---------|----------------|
+| age | Age | years |
+| bp | Blood pressure | mmHg |
+| sg | Specific gravity | 1.005, 1.010, 1.015, 1.020, 1.025 |
+| al | Albumin | 0–5 |
+| su | Sugar | 0–5 |
+| rbc | Red blood cells | normal / abnormal |
+| pc | Pus cell | normal / abnormal |
+| pcc | Pus cell clumps | present / notpresent |
+| ba | Bacteria | present / notpresent |
+| bgr | Blood glucose random | mg/dL |
+| bu | Blood urea | mg/dL |
+| sc | Serum creatinine | mg/dL |
+| sod | Sodium | mEq/L |
+| pot | Potassium | mEq/L |
+| hemo | Haemoglobin | g |
+| pcv | Packed cell volume | % |
+| wc | White blood cell count | cells/cmm |
+| rc | Red blood cell count | millions/cmm |
+| htn | Hypertension | yes / no |
+| dm | Diabetes mellitus | yes / no |
+| cad | Coronary artery disease | yes / no |
+| appet | Appetite | good / poor |
+| pe | Pedal oedema | yes / no |
+| ane | Anaemia | yes / no |
+| class | Target | ckd / notckd |
+
+Programmatic access:
+
+```python
+pip install ucimlrepo
+```
+
+```python
+from ucimlrepo import fetch_ucirepo
+
+chronic_kidney_disease = fetch_ucirepo(id=336)
+X = chronic_kidney_disease.data.features
+y = chronic_kidney_disease.data.targets
+```
+
+The companion notebook loads a CSV (`upload.csv`) whose column names match this schema. Perfect scores obtained in that notebook on the 400-record table should not be read as a reproduction of the HIV-specific metrics in Section 4.
+
+### 2.2 HIV-CKD literature cohort (Darveshwala et al., 2021)
+
+The primary experimental study synthesised in the review reports a UCI-derived **HIV-CKD** collection of **158 instances** and **27 attributes** (the UCI laboratory panel plus HIV-oriented demographic encodings such as gender and ethnicity). After binary classification, 44 patients were labelled CKD-positive; eGFR staging of those 44 cases concentrated in Stages 4–5 (10 and 25 patients, respectively).
 
 | No. | Feature | Type | Description |
 |-----|---------|------|-------------|
@@ -49,10 +111,6 @@ The most comprehensive experimental study reviewed (Darveshwala et al., 2021) us
 | 12–20 | Serum / haematology | Numerical | Glucose, urea, creatinine, Na⁺, K⁺, Hb, PCV, WBC, RBC count |
 | 21–26 | Comorbidities / symptoms | Binary / categorical | Hypertension, diabetes, CAD, appetite, pedal oedema, anaemia |
 | 27 | Class | Categorical | CKD / not CKD |
-
-### 2.3 Companion notebook data
-
-The accompanying Colab notebook loads a CSV (`upload.csv`) whose schema matches the widely used **UCI Chronic Kidney Disease** repository (age, bp, sg, al, su, rbc, pc, pcc, ba, …, classification). That file is the conventional 400-record general-CKD table rather than the 158-record HIV-specific subset. Results reported in the notebook (perfect scores across all seven models) should therefore be interpreted with caution: they are not a reproduction of the 93–99% figures tabulated in the review for the HIV cohort.
 
 ---
 
@@ -134,20 +192,7 @@ DNN superiority is attributed to hierarchical representation learning and implic
 
 ---
 
-## 7. Repository Contents
-
-```
-.
-├── README.md
-├── IJVRA2604095.pdf          # published review article
-└── CHRONIC_KIDNEY_DISEASE_STAGE_IDENTIFICATION_IN_HIV_INFECTED_PATIENTS_USING_SUPERVISED_MACHINE_LEARNING_A_REVIEW.ipynb
-```
-
-The notebook assumes a Colab path `/content/upload.csv`. Place the feature table at that location, or edit the `pd.read_csv` call. Required packages: `pandas`, `scikit-learn`, `xgboost`, `tensorflow`.
-
----
-
-## 8. How to Cite
+## 7. How to Cite
 
 Aryan, R. (2026). Chronic kidney disease stage identification in HIV infected patients using supervised machine learning: A review. *International Journal of Versatile Research and Analysis, 4*(4), 717–725. Paper IJVRA2604095.
 
@@ -155,8 +200,12 @@ Primary experimental source reviewed:
 
 Darveshwala, A. Y., Singh, D. K., & Farooqui, Y. (2021). Chronic kidney disease stage identification in HIV infected patients using machine learning. *Proceedings of the 5th International Conference on Computing Methodologies and Communication (ICCMC)*, 1509–1514. IEEE. https://doi.org/10.1109/ICCMC51019.2021.9418430
 
+Canonical public dataset:
+
+Rubini, L., Soundarapandian, P., & Eswaran, P. (2015). *Chronic Kidney Disease* [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5G020
+
 ---
 
-## 9. Licence and Disclaimer
+## 8. Licence and Disclaimer
 
 The journal states that authors retain copyright and that the article is distributed under **Creative Commons Attribution 4.0 International (CC BY 4.0)**. The models and notebook are research artefacts; they are **not** certified diagnostic devices and must not be used for clinical decision-making without independent validation, regulatory clearance, and clinician oversight.
